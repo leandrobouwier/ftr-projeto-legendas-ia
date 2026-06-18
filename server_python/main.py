@@ -15,10 +15,10 @@ def hello():
 def text_to_audio():
     text = request.json["text"]
 
-    audio = convert_text_to_audio(text)
+    audio, sample_rate = convert_text_to_audio(text)
 
     file_id = uuid.uuid4()
-    save_audio(audio, file_id)
+    save_audio(audio, sample_rate, file_id)
 
     return f"audio/{file_id}.wav"
 
