@@ -1,4 +1,5 @@
 from flask import Flask, request, send_from_directory
+from flask_cors import cross_origin
 
 app = Flask(__name__)
 
@@ -12,6 +13,7 @@ def hello():
     return "Hello"
 
 @app.route("/text_to_audio", methods= ["POST"])
+@cross_origin()
 def text_to_audio():
     text = request.json["text"]
 
@@ -20,7 +22,7 @@ def text_to_audio():
     file_id = uuid.uuid4()
     save_audio(audio, sample_rate, file_id)
 
-    return f"audio/{file_id}.wav"
+    return [{"url": f"audio/{file_id}.wav"}]
 
 
 @app.route ("/audio/<path:audio_file>")
